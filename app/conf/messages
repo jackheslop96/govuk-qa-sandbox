@@ -1,0 +1,9 @@
+service.name = GOV.UK example service
+
+date-of-birth.error.invalid = Enter a real date of birth
+nationality.error.other-required = Enter your nationality
+marital-status.error.required = Select your marital status
+address.error.postcode-invalid = Enter a postcode in the correct format
+phone-number.error.invalid = Enter a telephone number in the correct format
+about-you.error.too-long = Tell us about yourself using 500 characters or less
+hobbies.error.other-required = Enter your other hobby

@@ -1,0 +1,49 @@
+@import controllers.EmailAddressFormData
+@(form: Form[EmailAddressFormData])(implicit messages: Messages)
+
+@layout("What is your email address?") {
+
+  @if(form.hasErrors) {
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            @form.errors.map { error =>
+              <li><a href="#email">@messages(error.message)</a></li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <form method="POST" action="@controllers.routes.EmailAddressController.submitEmailAddress()" novalidate>
+
+    <div class="govuk-form-group @if(form.hasErrors) {govuk-form-group--error}">
+      <h1 class="govuk-label-wrapper">
+        <label class="govuk-label govuk-label--l" for="email">
+          What is your email address?
+        </label>
+      </h1>
+
+      @form.error("email").map { error =>
+        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(error.message)</p>
+      }
+
+      <input
+        class="govuk-input @if(form.error("email").isDefined) {govuk-input--error}"
+        id="email"
+        name="email"
+        type="email"
+        value="@form("email").value.getOrElse("")"
+        autocomplete="email"
+        spellcheck="false"
+      >
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+      Continue
+    </button>
+  </form>
+}

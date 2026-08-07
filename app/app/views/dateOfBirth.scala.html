@@ -1,0 +1,64 @@
+@import controllers.DateOfBirthFormData
+@(form: Form[DateOfBirthFormData])(implicit messages: Messages)
+
+@layout("What is your date of birth?") {
+
+  @if(form.hasErrors) {
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            @form.errors.map { error =>
+              <li><a href="#day">@messages(error.message)</a></li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <form method="POST" action="@controllers.routes.DateOfBirthController.submitDateOfBirth()" novalidate>
+
+    <div class="govuk-form-group @if(form.hasErrors) {govuk-form-group--error}">
+      <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-fieldset__heading">What is your date of birth?</h1>
+        </legend>
+        <div id="dob-hint" class="govuk-hint">For example, 17 3 1990</div>
+
+        @if(form.hasErrors) {
+          <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(form.errors.head.message)</p>
+        }
+
+        <div class="govuk-date-input" id="dateOfBirth">
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="day">Day</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="day" name="day"
+                     type="text" inputmode="numeric" value="@form("day").value.getOrElse("")">
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="month">Month</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-2" id="month" name="month"
+                     type="text" inputmode="numeric" value="@form("month").value.getOrElse("")">
+            </div>
+          </div>
+          <div class="govuk-date-input__item">
+            <div class="govuk-form-group">
+              <label class="govuk-label govuk-date-input__label" for="year">Year</label>
+              <input class="govuk-input govuk-date-input__input govuk-input--width-4" id="year" name="year"
+                     type="text" inputmode="numeric" value="@form("year").value.getOrElse("")">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+      Continue
+    </button>
+  </form>
+}

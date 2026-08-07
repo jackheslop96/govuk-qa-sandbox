@@ -1,0 +1,62 @@
+@import controllers.AddressFormData
+@(form: Form[AddressFormData])(implicit messages: Messages)
+
+@layout("What is your address?") {
+
+  @if(form.hasErrors) {
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            @form.errors.map { error =>
+              <li><a href="#@error.key">@messages(error.message)</a></li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <form method="POST" action="@controllers.routes.AddressController.submitAddress()" novalidate>
+
+    <h1 class="govuk-heading-l">What is your address?</h1>
+
+    <div class="govuk-form-group @if(form.error("addressLine1").isDefined) {govuk-form-group--error}">
+      <label class="govuk-label" for="addressLine1">Address line 1</label>
+      @form.error("addressLine1").map { error =>
+        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(error.message)</p>
+      }
+      <input class="govuk-input" id="addressLine1" name="addressLine1" type="text"
+             value="@form("addressLine1").value.getOrElse("")">
+    </div>
+
+    <div class="govuk-form-group">
+      <label class="govuk-label" for="addressLine2">Address line 2 (optional)</label>
+      <input class="govuk-input" id="addressLine2" name="addressLine2" type="text"
+             value="@form("addressLine2").value.getOrElse("")">
+    </div>
+
+    <div class="govuk-form-group @if(form.error("townOrCity").isDefined) {govuk-form-group--error}">
+      <label class="govuk-label" for="townOrCity">Town or city</label>
+      @form.error("townOrCity").map { error =>
+        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(error.message)</p>
+      }
+      <input class="govuk-input govuk-!-width-two-thirds" id="townOrCity" name="townOrCity" type="text"
+             value="@form("townOrCity").value.getOrElse("")">
+    </div>
+
+    <div class="govuk-form-group @if(form.error("postcode").isDefined) {govuk-form-group--error}">
+      <label class="govuk-label" for="postcode">Postcode</label>
+      @form.error("postcode").map { error =>
+        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(error.message)</p>
+      }
+      <input class="govuk-input govuk-input--width-10" id="postcode" name="postcode" type="text"
+             value="@form("postcode").value.getOrElse("")">
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+      Continue
+    </button>
+  </form>
+}

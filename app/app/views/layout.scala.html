@@ -1,0 +1,57 @@
+@(pageTitle: String, showBackLink: Boolean = true)(content: Html)(implicit messages: Messages)
+
+<!DOCTYPE html>
+<html lang="en" class="govuk-template">
+  <head>
+    <meta charset="utf-8">
+    <title>@pageTitle - GOV.UK example service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0c0c">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@@5.6.0/dist/govuk/govuk-frontend.min.css">
+    <link rel="icon" sizes="48x48" href="https://cdn.jsdelivr.net/npm/govuk-frontend@@5.6.0/dist/govuk/assets/images/favicon.ico">
+  </head>
+  <body class="govuk-template__body">
+    <script>document.body.className += ' js-enabled';</script>
+
+    <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+
+    <header class="govuk-header" data-module="govuk-header">
+      <div class="govuk-header__container govuk-width-container">
+        <div class="govuk-header__logo">
+          <a href="/" class="govuk-header__link govuk-header__link--homepage">
+            <span class="govuk-header__logotype-text">GOV.UK example service</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="govuk-width-container">
+
+      @if(showBackLink) {
+        <a href="javascript:history.back()" class="govuk-back-link">Back</a>
+      }
+
+      <main class="govuk-main-wrapper" id="main-content">
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            @content
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="govuk-footer">
+      <div class="govuk-width-container">
+        <span class="govuk-footer__licence-description">
+          Sandbox service for QA testing practice — not a real government service.
+        </span>
+      </div>
+    </footer>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/govuk-frontend@@5.6.0/dist/govuk/govuk-frontend.min.js"></script>
+    <script type="module">
+      import { initAll } from "https://cdn.jsdelivr.net/npm/govuk-frontend@@5.6.0/dist/govuk/govuk-frontend.min.js"
+      initAll()
+    </script>
+  </body>
+</html>

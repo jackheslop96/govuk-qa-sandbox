@@ -1,0 +1,66 @@
+@import controllers.NationalityFormData
+@(form: Form[NationalityFormData])(implicit messages: Messages)
+
+@layout("What is your nationality?") {
+
+  @if(form.hasErrors) {
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            @form.errors.map { error =>
+              <li><a href="#nationality">@messages(error.message)</a></li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <form method="POST" action="@controllers.routes.NationalityController.submitNationality()" novalidate>
+
+    <div class="govuk-form-group @if(form.hasErrors) {govuk-form-group--error}">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-fieldset__heading">What is your nationality?</h1>
+        </legend>
+
+        @if(form.hasErrors) {
+          <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(form.errors.head.message)</p>
+        }
+
+        <div class="govuk-radios" data-module="govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="nationality" name="nationality" type="radio" value="british"
+                   @if(form("nationality").value.contains("british")) {checked}>
+            <label class="govuk-label govuk-radios__label" for="nationality">British</label>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="nationality-2" name="nationality" type="radio" value="irish"
+                   @if(form("nationality").value.contains("irish")) {checked}>
+            <label class="govuk-label govuk-radios__label" for="nationality-2">Irish</label>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="nationality-3" name="nationality" type="radio" value="other"
+                   data-aria-controls="conditional-nationality-3"
+                   @if(form("nationality").value.contains("other")) {checked}>
+            <label class="govuk-label govuk-radios__label" for="nationality-3">Other</label>
+          </div>
+          <div class="govuk-radios__conditional @if(!form("nationality").value.contains("other")) {govuk-radios__conditional--hidden}"
+               id="conditional-nationality-3">
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="otherNationality">Please specify</label>
+              <input class="govuk-input" id="otherNationality" name="otherNationality" type="text"
+                     value="@form("otherNationality").value.getOrElse("")">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+      Continue
+    </button>
+  </form>
+}

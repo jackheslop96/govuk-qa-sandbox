@@ -1,0 +1,48 @@
+@import controllers.AboutYouFormData
+@(form: Form[AboutYouFormData])(implicit messages: Messages)
+
+@layout("Tell us a bit about yourself") {
+
+  @if(form.hasErrors) {
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            @form.errors.map { error =>
+              <li><a href="#aboutYou">@messages(error.message)</a></li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <form method="POST" action="@controllers.routes.AboutYouController.submitAboutYou()" novalidate>
+
+    <div class="govuk-form-group @if(form.hasErrors) {govuk-form-group--error}">
+      <h1 class="govuk-label-wrapper">
+        <label class="govuk-label govuk-label--l" for="aboutYou">
+          Tell us a bit about yourself
+        </label>
+      </h1>
+      <div id="aboutYou-hint" class="govuk-hint">Optional — up to 500 characters</div>
+
+      @form.error("aboutYou").map { error =>
+        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(error.message)</p>
+      }
+
+      <textarea
+        class="govuk-textarea @if(form.error("aboutYou").isDefined) {govuk-textarea--error}"
+        id="aboutYou"
+        name="aboutYou"
+        rows="5"
+        aria-describedby="aboutYou-hint"
+      >@form("aboutYou").value.getOrElse("")</textarea>
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+      Continue
+    </button>
+  </form>
+}

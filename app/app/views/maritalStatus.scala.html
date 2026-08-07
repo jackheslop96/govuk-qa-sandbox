@@ -1,0 +1,50 @@
+@import controllers.MaritalStatusFormData
+@(form: Form[MaritalStatusFormData])(implicit messages: Messages)
+
+@layout("What is your marital status?") {
+
+  @if(form.hasErrors) {
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            @form.errors.map { error =>
+              <li><a href="#maritalStatus">@messages(error.message)</a></li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <form method="POST" action="@controllers.routes.MaritalStatusController.submitMaritalStatus()" novalidate>
+
+    <div class="govuk-form-group @if(form.hasErrors) {govuk-form-group--error}">
+      <h1 class="govuk-label-wrapper">
+        <label class="govuk-label govuk-label--l" for="maritalStatus">
+          What is your marital status?
+        </label>
+      </h1>
+
+      @form.error("maritalStatus").map { error =>
+        <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(error.message)</p>
+      }
+
+      @defining(form("maritalStatus").value.getOrElse("")) { current =>
+        <select class="govuk-select @if(form.hasErrors) {govuk-select--error}" id="maritalStatus" name="maritalStatus">
+          <option value="">Choose an option</option>
+          <option value="single" @if(current == "single") {selected}>Single</option>
+          <option value="married" @if(current == "married") {selected}>Married</option>
+          <option value="divorced" @if(current == "divorced") {selected}>Divorced</option>
+          <option value="widowed" @if(current == "widowed") {selected}>Widowed</option>
+          <option value="prefer-not-to-say" @if(current == "prefer-not-to-say") {selected}>Prefer not to say</option>
+        </select>
+      }
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+      Continue
+    </button>
+  </form>
+}

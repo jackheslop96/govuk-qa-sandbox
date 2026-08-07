@@ -1,0 +1,73 @@
+@(selectedHobbies: List[String], otherHobby: String, hasOtherError: Boolean)(implicit messages: Messages)
+
+@layout("What are your hobbies?") {
+
+  @if(hasOtherError) {
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li><a href="#otherHobby">@messages("hobbies.error.other-required")</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <form method="POST" action="@controllers.routes.HobbiesController.submitHobbies()" novalidate>
+
+    <div class="govuk-form-group @if(hasOtherError) {govuk-form-group--error}">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-fieldset__heading">What are your hobbies?</h1>
+        </legend>
+        <div class="govuk-hint">Select all that apply. Optional.</div>
+
+        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="hobbies" name="hobbies" type="checkbox" value="reading"
+                   @if(selectedHobbies.contains("reading")) {checked}>
+            <label class="govuk-label govuk-checkboxes__label" for="hobbies">Reading</label>
+          </div>
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="hobbies-2" name="hobbies" type="checkbox" value="sport"
+                   @if(selectedHobbies.contains("sport")) {checked}>
+            <label class="govuk-label govuk-checkboxes__label" for="hobbies-2">Sport</label>
+          </div>
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="hobbies-3" name="hobbies" type="checkbox" value="music"
+                   @if(selectedHobbies.contains("music")) {checked}>
+            <label class="govuk-label govuk-checkboxes__label" for="hobbies-3">Music</label>
+          </div>
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="hobbies-4" name="hobbies" type="checkbox" value="travel"
+                   @if(selectedHobbies.contains("travel")) {checked}>
+            <label class="govuk-label govuk-checkboxes__label" for="hobbies-4">Travel</label>
+          </div>
+          <div class="govuk-checkboxes__divider">or</div>
+          <div class="govuk-checkboxes__item">
+            <input class="govuk-checkboxes__input" id="hobbies-5" name="hobbies" type="checkbox" value="other"
+                   data-aria-controls="conditional-hobbies-5"
+                   @if(selectedHobbies.contains("other")) {checked}>
+            <label class="govuk-label govuk-checkboxes__label" for="hobbies-5">Other</label>
+          </div>
+          <div class="govuk-checkboxes__conditional @if(!selectedHobbies.contains("other")) {govuk-checkboxes__conditional--hidden}"
+               id="conditional-hobbies-5">
+            <div class="govuk-form-group @if(hasOtherError) {govuk-form-group--error}">
+              <label class="govuk-label" for="otherHobby">Please specify</label>
+              @if(hasOtherError) {
+                <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages("hobbies.error.other-required")</p>
+              }
+              <input class="govuk-input" id="otherHobby" name="otherHobby" type="text" value="@otherHobby">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+      Continue
+    </button>
+  </form>
+}

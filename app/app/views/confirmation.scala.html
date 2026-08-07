@@ -1,0 +1,63 @@
+@(
+  fullName: String,
+  formattedDob: String,
+  nationality: String,
+  maritalStatus: String,
+  address: String,
+  phoneNumber: String,
+  hobbies: String,
+  aboutYou: String,
+  emailAddress: Option[String]
+)(implicit messages: Messages)
+
+@layout("Confirmation") {
+
+  <div class="govuk-panel govuk-panel--confirmation">
+    <h1 class="govuk-panel__title">Details submitted</h1>
+  </div>
+
+  <h2 class="govuk-heading-m">Your answers</h2>
+
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Name</dt>
+      <dd class="govuk-summary-list__value" id="summary-name">@fullName</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Date of birth</dt>
+      <dd class="govuk-summary-list__value" id="summary-dob">@formattedDob</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Nationality</dt>
+      <dd class="govuk-summary-list__value" id="summary-nationality">@nationality</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Marital status</dt>
+      <dd class="govuk-summary-list__value" id="summary-marital-status">@maritalStatus</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Address</dt>
+      <dd class="govuk-summary-list__value" id="summary-address">@address</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Phone number</dt>
+      <dd class="govuk-summary-list__value" id="summary-phone-number">@phoneNumber</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Hobbies</dt>
+      <dd class="govuk-summary-list__value" id="summary-hobbies">@hobbies</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">About you</dt>
+      <dd class="govuk-summary-list__value" id="summary-about-you">@aboutYou</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Email address</dt>
+      <dd class="govuk-summary-list__value" id="summary-email">@emailAddress.getOrElse("Not provided")</dd>
+    </div>
+  </dl>
+
+  <p class="govuk-body">
+    <a class="govuk-link" href="@controllers.routes.ConfirmationController.startAgain()">Start again</a>
+  </p>
+}

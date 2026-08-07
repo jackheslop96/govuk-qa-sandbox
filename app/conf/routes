@@ -1,0 +1,46 @@
+# Name
+GET     /                                controllers.NameController.showName()
+POST    /                                controllers.NameController.submitName()
+
+# Date of birth
+GET     /date-of-birth                   controllers.DateOfBirthController.showDateOfBirth()
+POST    /date-of-birth                   controllers.DateOfBirthController.submitDateOfBirth()
+
+# Nationality (radios, with a conditional reveal for "Other")
+GET     /nationality                     controllers.NationalityController.showNationality()
+POST    /nationality                     controllers.NationalityController.submitNationality()
+
+# Marital status (select / dropdown)
+GET     /marital-status                  controllers.MaritalStatusController.showMaritalStatus()
+POST    /marital-status                  controllers.MaritalStatusController.submitMaritalStatus()
+
+# Address (multiple text inputs on one page)
+GET     /address                         controllers.AddressController.showAddress()
+POST    /address                         controllers.AddressController.submitAddress()
+
+# Phone number (single, optional text input)
+GET     /phone-number                    controllers.PhoneNumberController.showPhoneNumber()
+POST    /phone-number                    controllers.PhoneNumberController.submitPhoneNumber()
+
+# Hobbies (checkboxes, with a conditional reveal for "Other")
+GET     /hobbies                         controllers.HobbiesController.showHobbies()
+POST    /hobbies                         controllers.HobbiesController.submitHobbies()
+
+# About you (textarea)
+GET     /about-you                       controllers.AboutYouController.showAboutYou()
+POST    /about-you                       controllers.AboutYouController.submitAboutYou()
+
+# Would you like to provide an email address?
+GET     /email-choice                    controllers.EmailChoiceController.showEmailChoice()
+POST    /email-choice                    controllers.EmailChoiceController.submitEmailChoice()
+
+# Email address
+GET     /email-address                   controllers.EmailAddressController.showEmailAddress()
+POST    /email-address                   controllers.EmailAddressController.submitEmailAddress()
+
+# Confirmation
+GET     /confirmation                    controllers.ConfirmationController.showConfirmation()
+GET     /start-again                     controllers.ConfirmationController.startAgain()
+
+# Static assets
+GET     /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)

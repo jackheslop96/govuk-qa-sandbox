@@ -1,0 +1,11 @@
+target/
+project/target/
+project/project/
+logs/
+.bsp/
+.idea/
+.vscode/
+*.class
+*.log
+RUNNING_PID
+.DS_Store

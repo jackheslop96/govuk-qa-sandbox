@@ -1,0 +1,52 @@
+@import controllers.EmailChoiceFormData
+@(form: Form[EmailChoiceFormData])(implicit messages: Messages)
+
+@layout("Would you like to provide an email address?") {
+
+  @if(form.hasErrors) {
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">There is a problem</h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            @form.errors.map { error =>
+              <li><a href="#wantsEmail">@messages(error.message)</a></li>
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+
+  <form method="POST" action="@controllers.routes.EmailChoiceController.submitEmailChoice()" novalidate>
+
+    <div class="govuk-form-group @if(form.hasErrors) {govuk-form-group--error}">
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-fieldset__heading">Would you like to provide an email address?</h1>
+        </legend>
+
+        @form.error("wantsEmail").map { error =>
+          <p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span> @messages(error.message)</p>
+        }
+
+        <div class="govuk-radios" data-module="govuk-radios">
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="wantsEmail" name="wantsEmail" type="radio" value="true"
+                   @if(form("wantsEmail").value.contains("true")) {checked}>
+            <label class="govuk-label govuk-radios__label" for="wantsEmail">Yes</label>
+          </div>
+          <div class="govuk-radios__item">
+            <input class="govuk-radios__input" id="wantsEmail-2" name="wantsEmail" type="radio" value="false"
+                   @if(form("wantsEmail").value.contains("false")) {checked}>
+            <label class="govuk-label govuk-radios__label" for="wantsEmail-2">No</label>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+    <button class="govuk-button" data-module="govuk-button" type="submit">
+      Continue
+    </button>
+  </form>
+}
