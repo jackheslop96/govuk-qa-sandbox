@@ -27,7 +27,16 @@ jobs:
         uses: sbt/setup-sbt@v1
 
       - name: Start the app
-        run: sbt app/run &
+        run: |
+          sbt app/run > app.log 2>&1 &
+
+          echo "Waiting for app to start..."
+
+          until curl --silent --output /dev/null http://localhost:9000/; do
+            sleep 1
+          done
+
+          echo "App is ready"
 
       - name: Run tests
         run: sbt tests/test
