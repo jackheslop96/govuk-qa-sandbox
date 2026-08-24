@@ -6,7 +6,7 @@ import govuk.utils.TestHelpers
 class FullJourneySpec extends PageSpec {
 
   "A user completing the whole journey" should "see all their answers on the confirmation page" in {
-    TestHelpers.goTo("/")
+    TestHelpers.goTo(NamePage.url)
 
     val namePage = new NamePage()
     namePage.assertions()
@@ -74,7 +74,7 @@ class FullJourneySpec extends PageSpec {
   }
 
   it should "let the user start again from the confirmation page" in {
-    TestHelpers.goTo("/")
+    TestHelpers.goTo(NamePage.url)
 
     val namePage = new NamePage()
     namePage.assertions()

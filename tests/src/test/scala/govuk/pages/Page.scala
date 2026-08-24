@@ -9,13 +9,11 @@ import java.time.Duration
 
 trait Page {
 
-  private val baseUrl = "http://localhost:9000"
-
   val url: String
 
   val heading: String
 
-  private val waitNow = new WebDriverWait(driver, Duration.ofSeconds(10))
+  private val waitNow = new WebDriverWait(driver, Duration.ofSeconds(5))
 
   protected def findElementById(id: String): WebElement = findElementBy(By.cssSelector(s"#$id"))
 
@@ -37,7 +35,7 @@ trait Page {
     val currentUrl = TestHelpers.driver.getCurrentUrl
     val h1 = findElementBy(By.tagName("h1"))
 
-    assert(currentUrl.equals(baseUrl + url))
+    assert(currentUrl.equals(TestHelpers.baseUrl + url))
     assert(h1.getText.equals(heading))
   }
 }

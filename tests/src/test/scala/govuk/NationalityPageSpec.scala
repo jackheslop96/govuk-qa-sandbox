@@ -5,22 +5,8 @@ import govuk.utils.TestHelpers
 
 class NationalityPageSpec extends PageSpec {
 
-  private def reachNationalityPage(): Unit = {
-    TestHelpers.goTo("/")
-
-    val namePage = new NamePage()
-    namePage.assertions()
-    namePage.fill("Jamie Smith")
-    namePage.submit()
-
-    val dateOfBirthPage = new DateOfBirthPage()
-    dateOfBirthPage.assertions()
-    dateOfBirthPage.fill(17, 3, 1990)
-    dateOfBirthPage.submit()
-  }
-
   "The nationality page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.goTo("/nationality")
+    TestHelpers.goTo(NationalityPage.url)
 
     val namePage = new NamePage()
     namePage.assertions()

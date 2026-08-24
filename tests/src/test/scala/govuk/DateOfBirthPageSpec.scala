@@ -6,19 +6,14 @@ import govuk.utils.TestHelpers
 class DateOfBirthPageSpec extends PageSpec {
 
   "The date of birth page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.goTo("/date-of-birth")
+    TestHelpers.goTo(DateOfBirthPage.url)
 
     val namePage = new NamePage()
     namePage.assertions()
   }
 
   it should "show an error for a date that doesn't exist" in {
-    TestHelpers.goTo("/")
-
-    val namePage = new NamePage()
-    namePage.assertions()
-    namePage.fill("Jamie Smith")
-    namePage.submit()
+    reachDateOfBirthPage()
 
     val dateOfBirthPage = new DateOfBirthPage()
     dateOfBirthPage.assertions()
@@ -28,12 +23,7 @@ class DateOfBirthPageSpec extends PageSpec {
   }
 
   it should "move on to the nationality page for a valid date" in {
-    TestHelpers.goTo("/")
-
-    val namePage = new NamePage()
-    namePage.assertions()
-    namePage.fill("Jamie Smith")
-    namePage.submit()
+    reachDateOfBirthPage()
 
     val dateOfBirthPage = new DateOfBirthPage()
     dateOfBirthPage.assertions()

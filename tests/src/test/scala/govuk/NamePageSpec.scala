@@ -6,14 +6,14 @@ import govuk.utils.TestHelpers
 class NamePageSpec extends PageSpec {
 
   "The name page" should "load successfully" in {
-    TestHelpers.goTo("/")
+    TestHelpers.goTo(NamePage.url)
 
     val namePage = new NamePage()
     namePage.assertions()
   }
 
   it should "show a validation error when no name is submitted" in {
-    TestHelpers.goTo("/")
+    TestHelpers.goTo(NamePage.url)
 
     val namePage = new NamePage()
     namePage.assertions()
@@ -22,7 +22,7 @@ class NamePageSpec extends PageSpec {
   }
 
   it should "move on to the date of birth page when a name is given" in {
-    TestHelpers.goTo("/")
+    TestHelpers.goTo(NamePage.url)
 
     val namePage = new NamePage()
     namePage.assertions()

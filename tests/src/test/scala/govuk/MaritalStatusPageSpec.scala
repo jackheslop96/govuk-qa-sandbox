@@ -5,27 +5,8 @@ import govuk.utils.TestHelpers
 
 class MaritalStatusPageSpec extends PageSpec {
 
-  private def reachMaritalStatusPage(): Unit = {
-    TestHelpers.goTo("/")
-
-    val namePage = new NamePage()
-    namePage.assertions()
-    namePage.fill("Jamie Smith")
-    namePage.submit()
-
-    val dateOfBirthPage = new DateOfBirthPage()
-    dateOfBirthPage.assertions()
-    dateOfBirthPage.fill(17, 3, 1990)
-    dateOfBirthPage.submit()
-
-    val nationalityPage = new NationalityPage()
-    nationalityPage.assertions()
-    nationalityPage.select("British")
-    nationalityPage.submit()
-  }
-
   "The marital status page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.goTo("/marital-status")
+    TestHelpers.goTo(MaritalStatusPage.url)
 
     val namePage = new NamePage()
     namePage.assertions()
