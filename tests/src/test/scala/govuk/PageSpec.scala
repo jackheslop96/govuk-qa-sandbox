@@ -20,71 +20,38 @@ trait PageSpec extends AnyFlatSpec with BeforeAndAfterEach {
   }
 
   protected def reachDateOfBirthPage(): Unit = {
-    reachNamePage()
-
-    val namePage = new NamePage()
-    namePage.fill("Jamie Smith")
-    namePage.submit()
+    TestHelpers.seedSession(DateOfBirthPage.url)
   }
 
   protected def reachNationalityPage(): Unit = {
-    reachDateOfBirthPage()
-
-    val dateOfBirthPage = new DateOfBirthPage()
-    dateOfBirthPage.fill(17, 3, 1990)
-    dateOfBirthPage.submit()
+    TestHelpers.seedSession(NationalityPage.url)
   }
 
   protected def reachMaritalStatusPage(): Unit = {
-    reachNationalityPage()
-
-    val nationalityPage = new NationalityPage()
-    nationalityPage.select("British")
-    nationalityPage.submit()
+    TestHelpers.seedSession(MaritalStatusPage.url)
   }
 
   protected def reachAddressPage(): Unit = {
-    reachMaritalStatusPage()
-
-    val maritalStatusPage = new MaritalStatusPage()
-    maritalStatusPage.select("single")
-    maritalStatusPage.submit()
+    TestHelpers.seedSession(HomeAddressPage.url)
   }
 
   protected def reachPhoneNumberPage(): Unit = {
-    reachAddressPage()
-
-    val homeAddressPage = new HomeAddressPage()
-    homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
-    homeAddressPage.submit()
+    TestHelpers.seedSession(PhoneNumberPage.url)
   }
 
   protected def reachHobbiesPage(): Unit = {
-    reachPhoneNumberPage()
-
-    val phoneNumberPage = new PhoneNumberPage()
-    phoneNumberPage.submit()
+    TestHelpers.seedSession(HobbiesPage.url)
   }
 
   protected def reachAboutYouPage(): Unit = {
-    reachHobbiesPage()
-
-    val hobbiesPage = new HobbiesPage()
-    hobbiesPage.submit()
+    TestHelpers.seedSession(AboutYouPage.url)
   }
 
   protected def reachEmailChoicePage(): Unit = {
-    reachAboutYouPage()
-
-    val aboutYouPage = new AboutYouPage()
-    aboutYouPage.submit()
+    TestHelpers.seedSession(EmailChoicePage.url)
   }
 
   protected def reachEmailAddressPage(): Unit = {
-    reachEmailChoicePage()
-
-    val emailChoicePage = new EmailChoicePage()
-    emailChoicePage.selectYes()
-    emailChoicePage.submit()
+    TestHelpers.seedSession(EmailAddressPage.url)
   }
 }

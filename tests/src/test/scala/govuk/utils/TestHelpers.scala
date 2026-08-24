@@ -40,4 +40,8 @@ object TestHelpers {
   def teardown(): Unit = {
     driver.quit()
   }
+
+  def seedSession(redirect: String): Unit = {
+    goTo(s"/test-only/seed?redirect=$redirect")
+  }
 }
