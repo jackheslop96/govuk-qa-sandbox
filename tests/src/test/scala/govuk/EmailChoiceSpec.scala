@@ -1,63 +1,73 @@
 package govuk
 
+import govuk.pages._
 import govuk.utils.TestHelpers
-import org.scalatest.flatspec.AnyFlatSpec
 
-class EmailChoiceSpec extends AnyFlatSpec {
+class EmailChoiceSpec extends PageSpec {
 
   private def reachEmailChoicePage(): Unit = {
     TestHelpers.goTo("/")
-    TestHelpers.typeText("#fullName", "Jamie Smith")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#day", "17")
-    TestHelpers.typeText("#month", "3")
-    TestHelpers.typeText("#year", "1990")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click("#nationality")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.selectDropdown("#maritalStatus", "single")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#addressLine1", "221B Baker Street")
-    TestHelpers.typeText("#townOrCity", "London")
-    TestHelpers.typeText("#postcode", "NW1 6XE")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip phone number
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip hobbies
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip about you
-    Thread.sleep(1000)
+
+    val namePage = new NamePage()
+    namePage.assertions()
+    namePage.fill("Jamie Smith")
+    namePage.submit()
+
+    val dateOfBirthPage = new DateOfBirthPage()
+    dateOfBirthPage.assertions()
+    dateOfBirthPage.fill(17, 3, 1990)
+    dateOfBirthPage.submit()
+
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("British")
+    nationalityPage.submit()
+
+    val maritalStatusPage = new MaritalStatusPage()
+    maritalStatusPage.assertions()
+    maritalStatusPage.select("single")
+    maritalStatusPage.submit()
+
+    val homeAddressPage = new HomeAddressPage()
+    homeAddressPage.assertions()
+    homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
+    homeAddressPage.submit()
+
+    val phoneNumberPage = new PhoneNumberPage()
+    phoneNumberPage.assertions()
+    phoneNumberPage.submit()
+
+    val hobbiesPage = new HobbiesPage()
+    hobbiesPage.assertions()
+    hobbiesPage.submit()
+
+    val aboutYouPage = new AboutYouPage()
+    aboutYouPage.assertions()
+    aboutYouPage.submit()
   }
 
   "Choosing No" should "skip straight to the confirmation page" in {
-    TestHelpers.setup()
     reachEmailChoicePage()
 
-    TestHelpers.click("#wantsEmail-2")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val emailChoicePage = new EmailChoicePage()
+    emailChoicePage.assertions()
+    emailChoicePage.selectNo()
+    emailChoicePage.submit()
 
-    assert(TestHelpers.driver.getCurrentUrl.contains("confirmation"))
-    assert(TestHelpers.getText("#summary-email") == "Not provided")
-
-    TestHelpers.teardown()
+    val confirmationPage = new ConfirmationPage()
+    confirmationPage.assertions()
+    confirmationPage.rowAssertion("summary-email", "Not provided")
   }
 
   "Choosing Yes" should "go on to the email address page" in {
-    TestHelpers.setup()
     reachEmailChoicePage()
 
-    TestHelpers.click("#wantsEmail")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val emailChoicePage = new EmailChoicePage()
+    emailChoicePage.assertions()
+    emailChoicePage.selectYes()
+    emailChoicePage.submit()
 
-    assert(TestHelpers.driver.getCurrentUrl.contains("email-address"))
-
-    TestHelpers.teardown()
+    val emailAddressPage = new EmailAddressPage()
+    emailAddressPage.assertions()
   }
 }

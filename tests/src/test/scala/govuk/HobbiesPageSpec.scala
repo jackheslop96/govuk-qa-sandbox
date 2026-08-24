@@ -1,71 +1,70 @@
 package govuk
 
+import govuk.pages._
 import govuk.utils.TestHelpers
-import org.scalatest.flatspec.AnyFlatSpec
 
-class HobbiesPageSpec extends AnyFlatSpec {
+class HobbiesPageSpec extends PageSpec {
 
   private def reachHobbiesPage(): Unit = {
     TestHelpers.goTo("/")
-    TestHelpers.typeText("#fullName", "Jamie Smith")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#day", "17")
-    TestHelpers.typeText("#month", "3")
-    TestHelpers.typeText("#year", "1990")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click("#nationality")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.selectDropdown("#maritalStatus", "single")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#addressLine1", "221B Baker Street")
-    TestHelpers.typeText("#townOrCity", "London")
-    TestHelpers.typeText("#postcode", "NW1 6XE")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip phone number
-    Thread.sleep(1000)
+
+    val namePage = new NamePage()
+    namePage.assertions()
+    namePage.fill("Jamie Smith")
+    namePage.submit()
+
+    val dateOfBirthPage = new DateOfBirthPage()
+    dateOfBirthPage.assertions()
+    dateOfBirthPage.fill(17, 3, 1990)
+    dateOfBirthPage.submit()
+
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("British")
+    nationalityPage.submit()
+
+    val maritalStatusPage = new MaritalStatusPage()
+    maritalStatusPage.assertions()
+    maritalStatusPage.select("single")
+    maritalStatusPage.submit()
+
+    val homeAddressPage = new HomeAddressPage()
+    homeAddressPage.assertions()
+    homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
+    homeAddressPage.submit()
+
+    val phoneNumberPage = new PhoneNumberPage()
+    phoneNumberPage.assertions()
+    phoneNumberPage.submit()
   }
 
   "The hobbies page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.setup()
     TestHelpers.goTo("/hobbies")
 
-    assert(TestHelpers.driver.getCurrentUrl.endsWith("/"))
-
-    TestHelpers.teardown()
+    val namePage = new NamePage()
+    namePage.assertions()
   }
 
   it should "show an error if Other is selected without specifying a hobby" in {
-    TestHelpers.setup()
     reachHobbiesPage()
 
-    TestHelpers.click("#hobbies-5") // Other
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-
-    val errorSummaryVisible = TestHelpers.driver.findElements(
-      org.openqa.selenium.By.cssSelector(".govuk-error-summary")
-    ).size() > 0
-    assert(errorSummaryVisible)
-
-    TestHelpers.teardown()
+    val hobbiesPage = new HobbiesPage()
+    hobbiesPage.assertions()
+    hobbiesPage.select("Other")
+    hobbiesPage.submit()
+    hobbiesPage.errorAssertions()
   }
 
   it should "accept multiple selections and move on" in {
-    TestHelpers.setup()
     reachHobbiesPage()
 
-    TestHelpers.click("#hobbies")   // Reading
-    TestHelpers.click("#hobbies-3") // Music
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val hobbiesPage = new HobbiesPage()
+    hobbiesPage.assertions()
+    hobbiesPage.select("Reading")
+    hobbiesPage.select("Music")
+    hobbiesPage.submit()
 
-    assert(TestHelpers.driver.getCurrentUrl.contains("about-you"))
-
-    TestHelpers.teardown()
+    val aboutYouPage = new AboutYouPage()
+    aboutYouPage.assertions()
   }
 }

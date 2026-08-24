@@ -1,69 +1,76 @@
 package govuk
 
+import govuk.pages._
 import govuk.utils.TestHelpers
-import org.scalatest.flatspec.AnyFlatSpec
 
-class EmailAddressSpec extends AnyFlatSpec {
+class EmailAddressSpec extends PageSpec {
 
   private def reachEmailAddressPage(): Unit = {
     TestHelpers.goTo("/")
-    TestHelpers.typeText("#fullName", "Jamie Smith")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#day", "17")
-    TestHelpers.typeText("#month", "3")
-    TestHelpers.typeText("#year", "1990")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click("#nationality")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.selectDropdown("#maritalStatus", "single")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#addressLine1", "221B Baker Street")
-    TestHelpers.typeText("#townOrCity", "London")
-    TestHelpers.typeText("#postcode", "NW1 6XE")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip phone number
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip hobbies
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip about you
-    Thread.sleep(1000)
-    TestHelpers.click("#wantsEmail")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+
+    val namePage = new NamePage()
+    namePage.assertions()
+    namePage.fill("Jamie Smith")
+    namePage.submit()
+
+    val dateOfBirthPage = new DateOfBirthPage()
+    dateOfBirthPage.assertions()
+    dateOfBirthPage.fill(17, 3, 1990)
+    dateOfBirthPage.submit()
+
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("British")
+    nationalityPage.submit()
+
+    val maritalStatusPage = new MaritalStatusPage()
+    maritalStatusPage.assertions()
+    maritalStatusPage.select("single")
+    maritalStatusPage.submit()
+
+    val homeAddressPage = new HomeAddressPage()
+    homeAddressPage.assertions()
+    homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
+    homeAddressPage.submit()
+
+    val phoneNumberPage = new PhoneNumberPage()
+    phoneNumberPage.assertions()
+    phoneNumberPage.submit()
+
+    val hobbiesPage = new HobbiesPage()
+    hobbiesPage.assertions()
+    hobbiesPage.submit()
+
+    val aboutYouPage = new AboutYouPage()
+    aboutYouPage.assertions()
+    aboutYouPage.submit()
+
+    val emailChoicePage = new EmailChoicePage()
+    emailChoicePage.assertions()
+    emailChoicePage.selectYes()
+    emailChoicePage.submit()
   }
 
   "The email address page" should "show an error for an invalid email" in {
-    TestHelpers.setup()
     reachEmailAddressPage()
 
-    TestHelpers.typeText("#email", "not-an-email")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-
-    val errorSummaryVisible = TestHelpers.driver.findElements(
-      org.openqa.selenium.By.cssSelector(".govuk-error-summary")
-    ).size() > 0
-    assert(errorSummaryVisible)
-
-    TestHelpers.teardown()
+    val emailAddressPage = new EmailAddressPage()
+    emailAddressPage.assertions()
+    emailAddressPage.fill("not-an-email")
+    emailAddressPage.submit()
+    emailAddressPage.errorAssertions()
   }
 
   it should "reach the confirmation page showing the submitted address" in {
-    TestHelpers.setup()
     reachEmailAddressPage()
 
-    TestHelpers.typeText("#email", "jamie.smith@example.com")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val emailAddressPage = new EmailAddressPage()
+    emailAddressPage.assertions()
+    emailAddressPage.fill("jamie.smith@example.com")
+    emailAddressPage.submit()
 
-    assert(TestHelpers.driver.getCurrentUrl.contains("confirmation"))
-    assert(TestHelpers.getText("#summary-email") == "jamie.smith@example.com")
-
-    TestHelpers.teardown()
+    val confirmationPage = new ConfirmationPage()
+    confirmationPage.assertions()
+    confirmationPage.rowAssertion("summary-email", "jamie.smith@example.com")
   }
 }

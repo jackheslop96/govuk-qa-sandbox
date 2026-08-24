@@ -35,42 +35,6 @@ object TestHelpers {
 
   def goTo(path: String): Unit = {
     driver.get(baseUrl + path)
-    Thread.sleep(1000) // give the page a moment to "settle"
-  }
-
-  def click(cssSelector: String): Unit = {
-    driver.findElement(By.cssSelector(cssSelector)).click()
-    Thread.sleep(500)
-  }
-
-  def typeText(cssSelector: String, text: String): Unit = {
-    val el = driver.findElement(By.cssSelector(cssSelector))
-    el.clear()
-    el.sendKeys(text)
-  }
-
-  def selectDropdown(cssSelector: String, value: String): Unit = {
-    val select = new Select(driver.findElement(By.cssSelector(cssSelector)))
-    select.selectByValue(value)
-  }
-
-  def uploadFile(cssSelector: String, absolutePath: String): Unit = {
-    driver.findElement(By.cssSelector(cssSelector)).sendKeys(absolutePath)
-  }
-
-  def getText(cssSelector: String): String = {
-    try {
-      driver.findElement(By.cssSelector(cssSelector)).getText
-    } catch {
-      case e: Exception => "" // if anything goes wrong, just pretend nothing was there
-    }
-  }
-
-  // Resolves a file under src/test/resources to an absolute path, for tests
-  // that need to feed a real file into a file input.
-  def resourcePath(name: String): String = {
-    val url = getClass.getClassLoader.getResource(name)
-    new java.io.File(url.toURI).getAbsolutePath
   }
 
   def teardown(): Unit = {

@@ -1,71 +1,63 @@
 package govuk
 
+import govuk.pages._
 import govuk.utils.TestHelpers
-import org.scalatest.flatspec.AnyFlatSpec
 
-class NationalityPageSpec extends AnyFlatSpec {
+class NationalityPageSpec extends PageSpec {
 
-  private def fillNameAndDob(): Unit = {
+  private def reachNationalityPage(): Unit = {
     TestHelpers.goTo("/")
-    TestHelpers.typeText("#fullName", "Jamie Smith")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#day", "17")
-    TestHelpers.typeText("#month", "3")
-    TestHelpers.typeText("#year", "1990")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+
+    val namePage = new NamePage()
+    namePage.assertions()
+    namePage.fill("Jamie Smith")
+    namePage.submit()
+
+    val dateOfBirthPage = new DateOfBirthPage()
+    dateOfBirthPage.assertions()
+    dateOfBirthPage.fill(17, 3, 1990)
+    dateOfBirthPage.submit()
   }
 
   "The nationality page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.setup()
     TestHelpers.goTo("/nationality")
 
-    assert(TestHelpers.driver.getCurrentUrl.endsWith("/"))
-
-    TestHelpers.teardown()
+    val namePage = new NamePage()
+    namePage.assertions()
   }
 
   it should "show an error if Other is selected without specifying a nationality" in {
-    TestHelpers.setup()
-    fillNameAndDob()
+    reachNationalityPage()
 
-    TestHelpers.click("#nationality-3") // Other
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-
-    val errorSummaryVisible = TestHelpers.driver.findElements(
-      org.openqa.selenium.By.cssSelector(".govuk-error-summary")
-    ).size() > 0
-    assert(errorSummaryVisible)
-
-    TestHelpers.teardown()
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("Other")
+    nationalityPage.submit()
+    nationalityPage.errorAssertions()
   }
 
   it should "accept Other with a specified nationality and move on" in {
-    TestHelpers.setup()
-    fillNameAndDob()
+    reachNationalityPage()
 
-    TestHelpers.click("#nationality-3") // Other
-    TestHelpers.typeText("#otherNationality", "French")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("Other")
+    nationalityPage.fill("French")
+    nationalityPage.submit()
 
-    assert(TestHelpers.driver.getCurrentUrl.contains("marital-status"))
-
-    TestHelpers.teardown()
+    val maritalStatusPage = new MaritalStatusPage()
+    maritalStatusPage.assertions()
   }
 
   it should "accept British and move straight on" in {
-    TestHelpers.setup()
-    fillNameAndDob()
+    reachNationalityPage()
 
-    TestHelpers.click("#nationality") // British
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("British")
+    nationalityPage.submit()
 
-    assert(TestHelpers.driver.getCurrentUrl.contains("marital-status"))
-
-    TestHelpers.teardown()
+    val maritalStatusPage = new MaritalStatusPage()
+    maritalStatusPage.assertions()
   }
 }

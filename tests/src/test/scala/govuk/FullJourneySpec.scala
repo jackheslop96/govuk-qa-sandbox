@@ -1,112 +1,127 @@
 package govuk
 
+import govuk.pages._
 import govuk.utils.TestHelpers
-import org.scalatest.flatspec.AnyFlatSpec
 
-class FullJourneySpec extends AnyFlatSpec {
+class FullJourneySpec extends PageSpec {
 
   "A user completing the whole journey" should "see all their answers on the confirmation page" in {
-    TestHelpers.setup()
-
     TestHelpers.goTo("/")
-    TestHelpers.typeText("#fullName", "Jamie Smith")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
 
-    TestHelpers.typeText("#day", "17")
-    TestHelpers.typeText("#month", "3")
-    TestHelpers.typeText("#year", "1990")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val namePage = new NamePage()
+    namePage.assertions()
+    namePage.fill("Jamie Smith")
+    namePage.submit()
 
-    TestHelpers.click("#nationality-3") // Other
-    TestHelpers.typeText("#otherNationality", "French")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val dateOfBirthPage = new DateOfBirthPage()
+    dateOfBirthPage.assertions()
+    dateOfBirthPage.fill(17, 3, 1990)
+    dateOfBirthPage.submit()
 
-    TestHelpers.selectDropdown("#maritalStatus", "married")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("Other")
+    nationalityPage.fill("French")
+    nationalityPage.submit()
 
-    TestHelpers.typeText("#addressLine1", "221B Baker Street")
-    TestHelpers.typeText("#townOrCity", "London")
-    TestHelpers.typeText("#postcode", "NW1 6XE")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val maritalStatusPage = new MaritalStatusPage()
+    maritalStatusPage.assertions()
+    maritalStatusPage.select("married")
+    maritalStatusPage.submit()
 
-    TestHelpers.typeText("#phoneNumber", "01234 567890")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val homeAddressPage = new HomeAddressPage()
+    homeAddressPage.assertions()
+    homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
+    homeAddressPage.submit()
 
-    TestHelpers.click("#hobbies")   // Reading
-    TestHelpers.click("#hobbies-3") // Music
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val phoneNumberPage = new PhoneNumberPage()
+    phoneNumberPage.assertions()
+    phoneNumberPage.fill("01234 567890")
+    phoneNumberPage.submit()
 
-    TestHelpers.typeText("#aboutYou", "I enjoy long walks and short unit tests.")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val hobbiesPage = new HobbiesPage()
+    hobbiesPage.assertions()
+    hobbiesPage.select("Reading")
+    hobbiesPage.select("Music")
+    hobbiesPage.submit()
 
-    TestHelpers.click("#wantsEmail")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val aboutYouPage = new AboutYouPage()
+    aboutYouPage.assertions()
+    aboutYouPage.fill("I enjoy long walks and short unit tests.")
+    aboutYouPage.submit()
 
-    TestHelpers.typeText("#email", "jamie.smith@example.com")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val emailChoicePage = new EmailChoicePage()
+    emailChoicePage.assertions()
+    emailChoicePage.selectYes()
+    emailChoicePage.submit()
 
-    assert(TestHelpers.getText("#summary-name") == "Jamie Smith")
-    assert(TestHelpers.getText("#summary-dob") == "17 March 1990")
-    assert(TestHelpers.getText("#summary-nationality") == "French")
-    assert(TestHelpers.getText("#summary-marital-status") == "Married")
-    assert(TestHelpers.getText("#summary-address") == "221B Baker Street, London, NW1 6XE")
-    assert(TestHelpers.getText("#summary-phone-number") == "01234 567890")
-    assert(TestHelpers.getText("#summary-hobbies") == "Reading, Music")
-    assert(TestHelpers.getText("#summary-about-you") == "I enjoy long walks and short unit tests.")
-    assert(TestHelpers.getText("#summary-email") == "jamie.smith@example.com")
+    val emailAddressPage = new EmailAddressPage()
+    emailAddressPage.assertions()
+    emailAddressPage.fill("jamie.smith@example.com")
+    emailAddressPage.submit()
 
-    TestHelpers.teardown()
+    val confirmationPage = new ConfirmationPage()
+    confirmationPage.assertions()
+    confirmationPage.rowAssertion("summary-name", "Jamie Smith")
+    confirmationPage.rowAssertion("summary-dob", "17 March 1990")
+    confirmationPage.rowAssertion("summary-nationality", "French")
+    confirmationPage.rowAssertion("summary-marital-status", "Married")
+    confirmationPage.rowAssertion("summary-address", "221B Baker Street, London, NW1 6XE")
+    confirmationPage.rowAssertion("summary-phone-number", "01234 567890")
+    confirmationPage.rowAssertion("summary-hobbies", "Reading, Music")
+    confirmationPage.rowAssertion("summary-about-you", "I enjoy long walks and short unit tests.")
+    confirmationPage.rowAssertion("summary-email", "jamie.smith@example.com")
   }
 
   it should "let the user start again from the confirmation page" in {
-    TestHelpers.setup()
-
     TestHelpers.goTo("/")
-    TestHelpers.typeText("#fullName", "Jamie Smith")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#day", "17")
-    TestHelpers.typeText("#month", "3")
-    TestHelpers.typeText("#year", "1990")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click("#nationality")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.selectDropdown("#maritalStatus", "single")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#addressLine1", "221B Baker Street")
-    TestHelpers.typeText("#townOrCity", "London")
-    TestHelpers.typeText("#postcode", "NW1 6XE")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip phone number
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip hobbies
-    Thread.sleep(1000)
-    TestHelpers.click(".govuk-button") // skip about you
-    Thread.sleep(1000)
-    TestHelpers.click("#wantsEmail-2")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
 
-    TestHelpers.click(".govuk-link")
-    Thread.sleep(1000)
+    val namePage = new NamePage()
+    namePage.assertions()
+    namePage.fill("Jamie Smith")
+    namePage.submit()
 
-    // pretty much always true, weak assertion
-    assert(TestHelpers.driver.getTitle != null)
+    val dateOfBirthPage = new DateOfBirthPage()
+    dateOfBirthPage.assertions()
+    dateOfBirthPage.fill(17, 3, 1990)
+    dateOfBirthPage.submit()
 
-    TestHelpers.teardown()
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("British")
+    nationalityPage.submit()
+
+    val maritalStatusPage = new MaritalStatusPage()
+    maritalStatusPage.assertions()
+    maritalStatusPage.select("single")
+    maritalStatusPage.submit()
+
+    val homeAddressPage = new HomeAddressPage()
+    homeAddressPage.assertions()
+    homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
+    homeAddressPage.submit()
+
+    val phoneNumberPage = new PhoneNumberPage()
+    phoneNumberPage.assertions()
+    phoneNumberPage.submit()
+
+    val hobbiesPage = new HobbiesPage()
+    hobbiesPage.assertions()
+    hobbiesPage.submit()
+
+    val aboutYouPage = new AboutYouPage()
+    aboutYouPage.assertions()
+    aboutYouPage.submit()
+
+    val emailChoicePage = new EmailChoicePage()
+    emailChoicePage.assertions()
+    emailChoicePage.selectNo()
+    emailChoicePage.submit()
+
+    val confirmationPage = new ConfirmationPage()
+    confirmationPage.assertions()
+    confirmationPage.startAgain()
+
+    namePage.assertions()
   }
 }

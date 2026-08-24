@@ -1,67 +1,64 @@
 package govuk
 
+import govuk.pages._
 import govuk.utils.TestHelpers
-import org.scalatest.flatspec.AnyFlatSpec
 
-class PhoneNumberPageSpec extends AnyFlatSpec {
+class PhoneNumberPageSpec extends PageSpec {
 
   private def reachPhoneNumberPage(): Unit = {
     TestHelpers.goTo("/")
-    TestHelpers.typeText("#fullName", "Jamie Smith")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#day", "17")
-    TestHelpers.typeText("#month", "3")
-    TestHelpers.typeText("#year", "1990")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click("#nationality")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.selectDropdown("#maritalStatus", "single")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#addressLine1", "221B Baker Street")
-    TestHelpers.typeText("#townOrCity", "London")
-    TestHelpers.typeText("#postcode", "NW1 6XE")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+
+    val namePage = new NamePage()
+    namePage.assertions()
+    namePage.fill("Jamie Smith")
+    namePage.submit()
+
+    val dateOfBirthPage = new DateOfBirthPage()
+    dateOfBirthPage.assertions()
+    dateOfBirthPage.fill(17, 3, 1990)
+    dateOfBirthPage.submit()
+
+    val nationalityPage = new NationalityPage()
+    nationalityPage.assertions()
+    nationalityPage.select("British")
+    nationalityPage.submit()
+
+    val maritalStatusPage = new MaritalStatusPage()
+    maritalStatusPage.assertions()
+    maritalStatusPage.select("single")
+    maritalStatusPage.submit()
+
+    val homeAddressPage = new HomeAddressPage()
+    homeAddressPage.assertions()
+    homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
+    homeAddressPage.submit()
   }
 
   "The phone number page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.setup()
     TestHelpers.goTo("/phone-number")
 
-    assert(TestHelpers.driver.getCurrentUrl.endsWith("/"))
-
-    TestHelpers.teardown()
+    val namePage = new NamePage()
+    namePage.assertions()
   }
 
   it should "show an error for an invalid phone number" in {
-    TestHelpers.setup()
     reachPhoneNumberPage()
 
-    TestHelpers.typeText("#phoneNumber", "not a phone number")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-
-    val errorSummaryVisible = TestHelpers.driver.findElements(
-      org.openqa.selenium.By.cssSelector(".govuk-error-summary")
-    ).size() > 0
-    assert(errorSummaryVisible)
-
-    TestHelpers.teardown()
+    val phoneNumberPage = new PhoneNumberPage()
+    phoneNumberPage.assertions()
+    phoneNumberPage.fill("not a phone number")
+    phoneNumberPage.submit()
+    phoneNumberPage.errorAssertions()
   }
 
   it should "allow the field to be left blank, since it's optional" in {
-    TestHelpers.setup()
     reachPhoneNumberPage()
 
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val phoneNumberPage = new PhoneNumberPage()
+    phoneNumberPage.assertions()
+    phoneNumberPage.submit()
 
-    assert(TestHelpers.driver.getCurrentUrl.contains("hobbies"))
-
-    TestHelpers.teardown()
+    val hobbiesPage = new HobbiesPage()
+    hobbiesPage.assertions()
   }
 }
