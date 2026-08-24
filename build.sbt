@@ -19,9 +19,5 @@ lazy val tests = (project in file("tests"))
       "org.seleniumhq.selenium" % "selenium-java"    % "4.21.0",
       "io.github.bonigarcia"    % "webdrivermanager" % "5.9.2"
     ),
-    // TestHelpers.driver is a single mutable var, not thread-safe, so specs
-    // must not run concurrently. Serial execution keeps the suite green;
-    // making the underlying design actually thread-safe is left as an
-    // exercise.
-    Test / parallelExecution := false
+    Test / parallelExecution := true
   )

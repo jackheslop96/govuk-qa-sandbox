@@ -1,9 +1,8 @@
 package govuk.pages
 
 import govuk.utils.TestHelpers
-import govuk.utils.TestHelpers.driver
 import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
-import org.openqa.selenium.{By, WebElement}
+import org.openqa.selenium.{By, WebDriver, WebElement}
 
 import java.time.Duration
 
@@ -12,6 +11,8 @@ trait Page {
   val url: String
 
   val heading: String
+
+  protected def driver: WebDriver = TestHelpers.getDriver
 
   private val waitNow = new WebDriverWait(driver, Duration.ofSeconds(5))
 
@@ -32,7 +33,7 @@ trait Page {
   }
 
   def assertions(): Unit = {
-    val currentUrl = TestHelpers.driver.getCurrentUrl
+    val currentUrl = driver.getCurrentUrl
     val h1 = findElementBy(By.tagName("h1"))
 
     assert(currentUrl.equals(TestHelpers.baseUrl + url))
