@@ -40,7 +40,3 @@ jobs:
 
       - name: Run tests
         run: sbt tests/test
-
-      - name: Show app logs
-        if: failure()
-        run: cat app.log
