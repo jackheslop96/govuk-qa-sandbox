@@ -17,10 +17,8 @@ trait Page {
 
   protected def findElementById(id: String): WebElement = findElementBy(By.cssSelector(s"#$id"))
 
-  protected def findElementBy(by: By): WebElement = {
-    waitNow.until {
-      ExpectedConditions.presenceOfElementLocated(by)
-    }
+  protected def findElementBy(by: By): WebElement = waitNow.until {
+    ExpectedConditions.presenceOfElementLocated(by)
   }
 
   protected def findClickableElementBy(by: By): WebElement = waitNow.until {
@@ -31,10 +29,11 @@ trait Page {
     ExpectedConditions.visibilityOfElementLocated(by)
   }
 
-  def assertions(): Unit = {
-    waitNow.until(ExpectedConditions.urlToBe(Page.baseUrl + url))
-
-    waitNow.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("h1"), heading))
+  def assertions(): Unit = waitNow.until {
+    ExpectedConditions.and(
+      ExpectedConditions.urlToBe(Page.baseUrl + url),
+      ExpectedConditions.textToBePresentInElementLocated(By.tagName("h1"), heading)
+    )
   }
 }
 
