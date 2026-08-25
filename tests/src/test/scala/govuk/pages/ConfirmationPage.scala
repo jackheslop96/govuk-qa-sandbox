@@ -20,6 +20,13 @@ class ConfirmationPage(override protected val driver: WebDriver) extends Page {
 }
 
 object ConfirmationPage {
+
+  def apply(driver: WebDriver): ConfirmationPage = {
+    val page = new ConfirmationPage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/confirmation"
   val heading = "Details submitted"
 }

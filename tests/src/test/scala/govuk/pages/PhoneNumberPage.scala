@@ -10,6 +10,13 @@ class PhoneNumberPage(override protected val driver: WebDriver) extends StringPa
 }
 
 object PhoneNumberPage {
+
+  def apply(driver: WebDriver): PhoneNumberPage = {
+    val page = new PhoneNumberPage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/phone-number"
   val heading = "What is your phone number?"
 }

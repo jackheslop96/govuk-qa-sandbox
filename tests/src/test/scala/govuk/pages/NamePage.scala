@@ -10,6 +10,13 @@ class NamePage(override protected val driver: WebDriver) extends StringPage("ful
 }
 
 object NamePage {
+
+  def apply(driver: WebDriver): NamePage = {
+    val page = new NamePage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/"
   val heading = "What is your name?"
 }

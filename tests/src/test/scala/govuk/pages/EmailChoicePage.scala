@@ -10,6 +10,13 @@ class EmailChoicePage(override protected val driver: WebDriver) extends YesNoPag
 }
 
 object EmailChoicePage {
+
+  def apply(driver: WebDriver): EmailChoicePage = {
+    val page = new EmailChoicePage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/email-choice"
   val heading = "Would you like to provide an email address?"
 }

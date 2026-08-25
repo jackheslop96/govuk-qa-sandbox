@@ -10,6 +10,13 @@ class MaritalStatusPage(override protected val driver: WebDriver) extends Dropdo
 }
 
 object MaritalStatusPage {
+
+  def apply(driver: WebDriver): MaritalStatusPage = {
+    val page = new MaritalStatusPage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/marital-status"
   val heading = "What is your marital status?"
 }

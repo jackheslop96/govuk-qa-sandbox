@@ -10,6 +10,13 @@ class DateOfBirthPage(override protected val driver: WebDriver) extends DatePage
 }
 
 object DateOfBirthPage {
+
+  def apply(driver: WebDriver): DateOfBirthPage = {
+    val page = new DateOfBirthPage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/date-of-birth"
   val heading = "What is your date of birth?"
 }

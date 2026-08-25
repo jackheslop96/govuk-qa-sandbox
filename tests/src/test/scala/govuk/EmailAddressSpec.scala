@@ -7,8 +7,7 @@ class EmailAddressSpec extends PageSpec {
   "The email address page" should "show an error for an invalid email" in {
     reachEmailAddressPage()
 
-    val emailAddressPage = new EmailAddressPage(driver)
-    emailAddressPage.assertions()
+    val emailAddressPage = EmailAddressPage(driver)
     emailAddressPage.fill("not-an-email")
     emailAddressPage.submit()
     emailAddressPage.errorAssertions()
@@ -17,13 +16,11 @@ class EmailAddressSpec extends PageSpec {
   it should "reach the confirmation page showing the submitted address" in {
     reachEmailAddressPage()
 
-    val emailAddressPage = new EmailAddressPage(driver)
-    emailAddressPage.assertions()
+    val emailAddressPage = EmailAddressPage(driver)
     emailAddressPage.fill("jamie.smith@example.com")
     emailAddressPage.submit()
 
-    val confirmationPage = new ConfirmationPage(driver)
-    confirmationPage.assertions()
+    val confirmationPage = ConfirmationPage(driver)
     confirmationPage.rowAssertion("summary-email", "jamie.smith@example.com")
   }
 }

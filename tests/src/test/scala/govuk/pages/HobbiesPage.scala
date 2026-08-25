@@ -10,6 +10,13 @@ class HobbiesPage(override protected val driver: WebDriver) extends ChoicePage {
 }
 
 object HobbiesPage {
+
+  def apply(driver: WebDriver): HobbiesPage = {
+    val page = new HobbiesPage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/hobbies"
   val heading = "What are your hobbies?"
 }

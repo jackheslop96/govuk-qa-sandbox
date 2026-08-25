@@ -10,6 +10,13 @@ class AboutYouPage(override protected val driver: WebDriver) extends StringPage(
 }
 
 object AboutYouPage {
+
+  def apply(driver: WebDriver): AboutYouPage = {
+    val page = new AboutYouPage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/about-you"
   val heading = "Tell us a bit about yourself"
 }

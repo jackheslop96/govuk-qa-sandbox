@@ -7,15 +7,13 @@ class MaritalStatusPageSpec extends PageSpec {
   "The marital status page" should "redirect back to start of journey if visited directly" in {
     goTo(MaritalStatusPage.url)
 
-    val namePage = new NamePage(driver)
-    namePage.assertions()
+    NamePage(driver)
   }
 
   it should "show an error when no option is chosen" in {
     reachMaritalStatusPage()
 
-    val maritalStatusPage = new MaritalStatusPage(driver)
-    maritalStatusPage.assertions()
+    val maritalStatusPage = MaritalStatusPage(driver)
     maritalStatusPage.submit()
     maritalStatusPage.errorAssertions()
   }
@@ -23,12 +21,10 @@ class MaritalStatusPageSpec extends PageSpec {
   it should "accept a chosen option and move on to the address page" in {
     reachMaritalStatusPage()
 
-    val maritalStatusPage = new MaritalStatusPage(driver)
-    maritalStatusPage.assertions()
+    val maritalStatusPage = MaritalStatusPage(driver)
     maritalStatusPage.select("single")
     maritalStatusPage.submit()
 
-    val homeAddressPage = new HomeAddressPage(driver)
-    homeAddressPage.assertions()
+    HomeAddressPage(driver)
   }
 }

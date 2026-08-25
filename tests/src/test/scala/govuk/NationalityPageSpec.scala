@@ -7,15 +7,13 @@ class NationalityPageSpec extends PageSpec {
   "The nationality page" should "redirect back to start of journey if visited directly" in {
     goTo(NationalityPage.url)
 
-    val namePage = new NamePage(driver)
-    namePage.assertions()
+    NamePage(driver)
   }
 
   it should "show an error if Other is selected without specifying a nationality" in {
     reachNationalityPage()
 
-    val nationalityPage = new NationalityPage(driver)
-    nationalityPage.assertions()
+    val nationalityPage = NationalityPage(driver)
     nationalityPage.select("Other")
     nationalityPage.submit()
     nationalityPage.errorAssertions()
@@ -24,25 +22,21 @@ class NationalityPageSpec extends PageSpec {
   it should "accept Other with a specified nationality and move on" in {
     reachNationalityPage()
 
-    val nationalityPage = new NationalityPage(driver)
-    nationalityPage.assertions()
+    val nationalityPage = NationalityPage(driver)
     nationalityPage.select("Other")
     nationalityPage.fill("French")
     nationalityPage.submit()
 
-    val maritalStatusPage = new MaritalStatusPage(driver)
-    maritalStatusPage.assertions()
+    MaritalStatusPage(driver)
   }
 
   it should "accept British and move straight on" in {
     reachNationalityPage()
 
-    val nationalityPage = new NationalityPage(driver)
-    nationalityPage.assertions()
+    val nationalityPage = NationalityPage(driver)
     nationalityPage.select("British")
     nationalityPage.submit()
 
-    val maritalStatusPage = new MaritalStatusPage(driver)
-    maritalStatusPage.assertions()
+    MaritalStatusPage(driver)
   }
 }

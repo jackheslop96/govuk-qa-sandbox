@@ -15,6 +15,13 @@ class NationalityPage(override protected val driver: WebDriver) extends ChoicePa
 }
 
 object NationalityPage {
+
+  def apply(driver: WebDriver): NationalityPage = {
+    val page = new NationalityPage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/nationality"
   val heading = "What is your nationality?"
 }

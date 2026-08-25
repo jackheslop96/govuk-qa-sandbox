@@ -10,6 +10,13 @@ class EmailAddressPage(override protected val driver: WebDriver) extends StringP
 }
 
 object EmailAddressPage {
+
+  def apply(driver: WebDriver): EmailAddressPage = {
+    val page = new EmailAddressPage(driver)
+    page.assertions()
+    page
+  }
+
   val url = "/email-address"
   val heading = "What is your email address?"
 }

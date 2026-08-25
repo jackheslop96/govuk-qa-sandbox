@@ -7,60 +7,49 @@ class FullJourneySpec extends PageSpec {
   "A user completing the whole journey" should "see all their answers on the confirmation page" in {
     goTo(NamePage.url)
 
-    val namePage = new NamePage(driver)
-    namePage.assertions()
+    val namePage = NamePage(driver)
     namePage.fill("Jamie Smith")
     namePage.submit()
 
-    val dateOfBirthPage = new DateOfBirthPage(driver)
-    dateOfBirthPage.assertions()
+    val dateOfBirthPage = DateOfBirthPage(driver)
     dateOfBirthPage.fill(17, 3, 1990)
     dateOfBirthPage.submit()
 
-    val nationalityPage = new NationalityPage(driver)
-    nationalityPage.assertions()
+    val nationalityPage = NationalityPage(driver)
     nationalityPage.select("Other")
     nationalityPage.fill("French")
     nationalityPage.submit()
 
-    val maritalStatusPage = new MaritalStatusPage(driver)
-    maritalStatusPage.assertions()
+    val maritalStatusPage = MaritalStatusPage(driver)
     maritalStatusPage.select("married")
     maritalStatusPage.submit()
 
-    val homeAddressPage = new HomeAddressPage(driver)
-    homeAddressPage.assertions()
+    val homeAddressPage = HomeAddressPage(driver)
     homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
     homeAddressPage.submit()
 
-    val phoneNumberPage = new PhoneNumberPage(driver)
-    phoneNumberPage.assertions()
+    val phoneNumberPage = PhoneNumberPage(driver)
     phoneNumberPage.fill("01234 567890")
     phoneNumberPage.submit()
 
-    val hobbiesPage = new HobbiesPage(driver)
-    hobbiesPage.assertions()
+    val hobbiesPage = HobbiesPage(driver)
     hobbiesPage.select("Reading")
     hobbiesPage.select("Music")
     hobbiesPage.submit()
 
-    val aboutYouPage = new AboutYouPage(driver)
-    aboutYouPage.assertions()
+    val aboutYouPage = AboutYouPage(driver)
     aboutYouPage.fill("I enjoy long walks and short unit tests.")
     aboutYouPage.submit()
 
-    val emailChoicePage = new EmailChoicePage(driver)
-    emailChoicePage.assertions()
+    val emailChoicePage = EmailChoicePage(driver)
     emailChoicePage.selectYes()
     emailChoicePage.submit()
 
-    val emailAddressPage = new EmailAddressPage(driver)
-    emailAddressPage.assertions()
+    val emailAddressPage = EmailAddressPage(driver)
     emailAddressPage.fill("jamie.smith@example.com")
     emailAddressPage.submit()
 
-    val confirmationPage = new ConfirmationPage(driver)
-    confirmationPage.assertions()
+    val confirmationPage = ConfirmationPage(driver)
     confirmationPage.rowAssertion("summary-name", "Jamie Smith")
     confirmationPage.rowAssertion("summary-dob", "17 March 1990")
     confirmationPage.rowAssertion("summary-nationality", "French")
@@ -75,52 +64,42 @@ class FullJourneySpec extends PageSpec {
   it should "let the user start again from the confirmation page" in {
     goTo(NamePage.url)
 
-    val namePage = new NamePage(driver)
-    namePage.assertions()
+    val namePage = NamePage(driver)
     namePage.fill("Jamie Smith")
     namePage.submit()
 
-    val dateOfBirthPage = new DateOfBirthPage(driver)
-    dateOfBirthPage.assertions()
+    val dateOfBirthPage = DateOfBirthPage(driver)
     dateOfBirthPage.fill(17, 3, 1990)
     dateOfBirthPage.submit()
 
-    val nationalityPage = new NationalityPage(driver)
-    nationalityPage.assertions()
+    val nationalityPage = NationalityPage(driver)
     nationalityPage.select("British")
     nationalityPage.submit()
 
-    val maritalStatusPage = new MaritalStatusPage(driver)
-    maritalStatusPage.assertions()
+    val maritalStatusPage = MaritalStatusPage(driver)
     maritalStatusPage.select("single")
     maritalStatusPage.submit()
 
-    val homeAddressPage = new HomeAddressPage(driver)
-    homeAddressPage.assertions()
+    val homeAddressPage = HomeAddressPage(driver)
     homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
     homeAddressPage.submit()
 
-    val phoneNumberPage = new PhoneNumberPage(driver)
-    phoneNumberPage.assertions()
+    val phoneNumberPage = PhoneNumberPage(driver)
     phoneNumberPage.submit()
 
-    val hobbiesPage = new HobbiesPage(driver)
-    hobbiesPage.assertions()
+    val hobbiesPage = HobbiesPage(driver)
     hobbiesPage.submit()
 
-    val aboutYouPage = new AboutYouPage(driver)
-    aboutYouPage.assertions()
+    val aboutYouPage = AboutYouPage(driver)
     aboutYouPage.submit()
 
-    val emailChoicePage = new EmailChoicePage(driver)
-    emailChoicePage.assertions()
+    val emailChoicePage = EmailChoicePage(driver)
     emailChoicePage.selectNo()
     emailChoicePage.submit()
 
-    val confirmationPage = new ConfirmationPage(driver)
-    confirmationPage.assertions()
+    val confirmationPage = ConfirmationPage(driver)
     confirmationPage.startAgain()
 
-    namePage.assertions()
+    NamePage(driver)
   }
 }
