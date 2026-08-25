@@ -1,17 +1,17 @@
 package govuk.pages
 
-import govuk.utils.TextInputHelpers
-import org.openqa.selenium.WebElement
+import org.openqa.selenium.WebDriver
 
-class NationalityPage extends ChoicePage with TextInputHelpers {
+class NationalityPage(override protected val driver: WebDriver) extends ChoicePage {
 
   override val url: String = NationalityPage.url
 
   override val heading: String = NationalityPage.heading
 
-  val otherNationalityInput: WebElement = findElementById("otherNationality")
-
-  def fill(value: String): Unit = fill(otherNationalityInput, value)
+  def fill(value: String): Unit = {
+    val input = findElementById("otherNationality")
+    fill(input, value)
+  }
 }
 
 object NationalityPage {

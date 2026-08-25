@@ -1,6 +1,8 @@
 package govuk.pages
 
-class PhoneNumberPage extends StringPage("phoneNumber") {
+import org.openqa.selenium.WebDriver
+
+class PhoneNumberPage(override protected val driver: WebDriver) extends StringPage("phoneNumber") {
 
   override val url: String = PhoneNumberPage.url
 

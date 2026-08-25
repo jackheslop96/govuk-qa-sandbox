@@ -1,6 +1,8 @@
 package govuk.pages
 
-class NamePage extends StringPage("fullName") {
+import org.openqa.selenium.WebDriver
+
+class NamePage(override protected val driver: WebDriver) extends StringPage("fullName") {
 
   override val url: String = NamePage.url
 

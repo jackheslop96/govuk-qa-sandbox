@@ -1,21 +1,20 @@
 package govuk
 
 import govuk.pages._
-import govuk.utils.TestHelpers
 
 class AddressPageSpec extends PageSpec {
 
   "The address page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.goTo(HomeAddressPage.url)
+    goTo(HomeAddressPage.url)
 
-    val namePage = new NamePage()
+    val namePage = new NamePage(driver)
     namePage.assertions()
   }
 
   it should "show an error for an invalid postcode" in {
     reachAddressPage()
 
-    val homeAddressPage = new HomeAddressPage()
+    val homeAddressPage = new HomeAddressPage(driver)
     homeAddressPage.assertions()
     homeAddressPage.fill("221B Baker Street", "London", "!!!")
     homeAddressPage.submit()
@@ -25,12 +24,12 @@ class AddressPageSpec extends PageSpec {
   it should "accept a valid address, with line 2 left blank, and move on" in {
     reachAddressPage()
 
-    val homeAddressPage = new HomeAddressPage()
+    val homeAddressPage = new HomeAddressPage(driver)
     homeAddressPage.assertions()
     homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
     homeAddressPage.submit()
 
-    val phoneNumberPage = new PhoneNumberPage()
+    val phoneNumberPage = new PhoneNumberPage(driver)
     phoneNumberPage.assertions()
   }
 }

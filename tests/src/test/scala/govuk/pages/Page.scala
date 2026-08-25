@@ -1,6 +1,5 @@
 package govuk.pages
 
-import govuk.utils.TestHelpers
 import org.openqa.selenium.support.ui.{ExpectedConditions, WebDriverWait}
 import org.openqa.selenium.{By, WebDriver, WebElement}
 
@@ -12,9 +11,9 @@ trait Page {
 
   val heading: String
 
-  protected def driver: WebDriver = TestHelpers.getDriver
+  protected val driver: WebDriver
 
-  private val waitNow = new WebDriverWait(driver, Duration.ofSeconds(5))
+  private lazy val waitNow = new WebDriverWait(driver, Duration.ofSeconds(5))
 
   protected def findElementById(id: String): WebElement = findElementBy(By.cssSelector(s"#$id"))
 
@@ -33,10 +32,12 @@ trait Page {
   }
 
   def assertions(): Unit = {
-    val currentUrl = driver.getCurrentUrl
-    val h1 = findElementBy(By.tagName("h1"))
+    waitNow.until(ExpectedConditions.urlToBe(Page.baseUrl + url))
 
-    assert(currentUrl.equals(TestHelpers.baseUrl + url))
-    assert(h1.getText.equals(heading))
+    waitNow.until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("h1"), heading))
   }
+}
+
+object Page {
+  val baseUrl = "http://localhost:9000"
 }

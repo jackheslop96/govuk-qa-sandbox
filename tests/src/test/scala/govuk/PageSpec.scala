@@ -1,57 +1,74 @@
 package govuk
 
 import govuk.pages._
-import govuk.utils.TestHelpers
+import io.github.bonigarcia.wdm.WebDriverManager
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.chrome.{ChromeDriver, ChromeOptions}
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.flatspec.AnyFlatSpec
 
 trait PageSpec extends AnyFlatSpec with BeforeAndAfterEach {
 
+  protected var driver: WebDriver = _
+
   override def beforeEach(): Unit = {
-    TestHelpers.setup()
+    WebDriverManager.chromedriver().setup()
+
+    val options = new ChromeOptions()
+
+    if (sys.env.contains("CI")) {
+      options.addArguments(
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-dev-shm-usage"
+      )
+    } else {
+      options.addArguments("--start-maximized")
+    }
+
+    driver = new ChromeDriver(options)
   }
 
   override def afterEach(): Unit = {
-    TestHelpers.teardown()
+    if (driver != null) {
+      driver.quit()
+      driver = null
+    }
   }
 
-  protected def reachNamePage(): Unit = {
-    TestHelpers.goTo(NamePage.url)
-  }
+  protected def goTo(path: String): Unit =
+    driver.get(s"${Page.baseUrl}$path")
 
-  protected def reachDateOfBirthPage(): Unit = {
-    TestHelpers.seedSession(DateOfBirthPage.url)
-  }
+  protected def seedSession(redirect: String): Unit =
+    goTo(s"/test-only/seed?redirect=$redirect")
 
-  protected def reachNationalityPage(): Unit = {
-    TestHelpers.seedSession(NationalityPage.url)
-  }
+  protected def reachNamePage(): Unit =
+    goTo(NamePage.url)
 
-  protected def reachMaritalStatusPage(): Unit = {
-    TestHelpers.seedSession(MaritalStatusPage.url)
-  }
+  protected def reachDateOfBirthPage(): Unit =
+    seedSession(DateOfBirthPage.url)
 
-  protected def reachAddressPage(): Unit = {
-    TestHelpers.seedSession(HomeAddressPage.url)
-  }
+  protected def reachNationalityPage(): Unit =
+    seedSession(NationalityPage.url)
 
-  protected def reachPhoneNumberPage(): Unit = {
-    TestHelpers.seedSession(PhoneNumberPage.url)
-  }
+  protected def reachMaritalStatusPage(): Unit =
+    seedSession(MaritalStatusPage.url)
 
-  protected def reachHobbiesPage(): Unit = {
-    TestHelpers.seedSession(HobbiesPage.url)
-  }
+  protected def reachAddressPage(): Unit =
+    seedSession(HomeAddressPage.url)
 
-  protected def reachAboutYouPage(): Unit = {
-    TestHelpers.seedSession(AboutYouPage.url)
-  }
+  protected def reachPhoneNumberPage(): Unit =
+    seedSession(PhoneNumberPage.url)
 
-  protected def reachEmailChoicePage(): Unit = {
-    TestHelpers.seedSession(EmailChoicePage.url)
-  }
+  protected def reachHobbiesPage(): Unit =
+    seedSession(HobbiesPage.url)
 
-  protected def reachEmailAddressPage(): Unit = {
-    TestHelpers.seedSession(EmailAddressPage.url)
-  }
+  protected def reachAboutYouPage(): Unit =
+    seedSession(AboutYouPage.url)
+
+  protected def reachEmailChoicePage(): Unit =
+    seedSession(EmailChoicePage.url)
+
+  protected def reachEmailAddressPage(): Unit =
+    seedSession(EmailAddressPage.url)
 }

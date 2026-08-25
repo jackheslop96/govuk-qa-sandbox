@@ -1,21 +1,20 @@
 package govuk
 
 import govuk.pages._
-import govuk.utils.TestHelpers
 
 class HobbiesPageSpec extends PageSpec {
 
   "The hobbies page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.goTo(HobbiesPage.url)
+    goTo(HobbiesPage.url)
 
-    val namePage = new NamePage()
+    val namePage = new NamePage(driver)
     namePage.assertions()
   }
 
   it should "show an error if Other is selected without specifying a hobby" in {
     reachHobbiesPage()
 
-    val hobbiesPage = new HobbiesPage()
+    val hobbiesPage = new HobbiesPage(driver)
     hobbiesPage.assertions()
     hobbiesPage.select("Other")
     hobbiesPage.submit()
@@ -25,13 +24,13 @@ class HobbiesPageSpec extends PageSpec {
   it should "accept multiple selections and move on" in {
     reachHobbiesPage()
 
-    val hobbiesPage = new HobbiesPage()
+    val hobbiesPage = new HobbiesPage(driver)
     hobbiesPage.assertions()
     hobbiesPage.select("Reading")
     hobbiesPage.select("Music")
     hobbiesPage.submit()
 
-    val aboutYouPage = new AboutYouPage()
+    val aboutYouPage = new AboutYouPage(driver)
     aboutYouPage.assertions()
   }
 }

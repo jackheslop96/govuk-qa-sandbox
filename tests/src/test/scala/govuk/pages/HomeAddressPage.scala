@@ -1,6 +1,8 @@
 package govuk.pages
 
-class HomeAddressPage extends AddressPage {
+import org.openqa.selenium.WebDriver
+
+class HomeAddressPage(override protected val driver: WebDriver) extends AddressPage {
 
   override val url: String = HomeAddressPage.url
 

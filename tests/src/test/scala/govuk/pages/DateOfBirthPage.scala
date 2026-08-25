@@ -1,6 +1,8 @@
 package govuk.pages
 
-class DateOfBirthPage extends DatePage {
+import org.openqa.selenium.WebDriver
+
+class DateOfBirthPage(override protected val driver: WebDriver) extends DatePage {
 
   override val url: String = DateOfBirthPage.url
 

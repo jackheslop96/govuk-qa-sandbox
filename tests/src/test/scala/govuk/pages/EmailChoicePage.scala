@@ -1,6 +1,8 @@
 package govuk.pages
 
-class EmailChoicePage extends YesNoPage {
+import org.openqa.selenium.WebDriver
+
+class EmailChoicePage(override protected val driver: WebDriver) extends YesNoPage {
 
   override val url: String = EmailChoicePage.url
 

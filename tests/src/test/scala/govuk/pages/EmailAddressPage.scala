@@ -1,6 +1,8 @@
 package govuk.pages
 
-class EmailAddressPage extends StringPage("email") {
+import org.openqa.selenium.WebDriver
+
+class EmailAddressPage(override protected val driver: WebDriver) extends StringPage("email") {
 
   override val url: String = EmailAddressPage.url
 

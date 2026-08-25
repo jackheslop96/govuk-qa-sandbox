@@ -1,11 +1,11 @@
 package govuk.pages
 
-import govuk.utils.TextInputHelpers
 import org.openqa.selenium.WebElement
 
-abstract class StringPage(val id: String) extends QuestionPage with TextInputHelpers {
+abstract class StringPage(id: String) extends QuestionPage {
 
-  val input: WebElement = findElementById(id)
-
-  def fill(value: String): Unit = fill(input, value)
+  def fill(value: String): Unit = {
+    val input: WebElement = findElementById(id)
+    fill(input, value)
+  }
 }

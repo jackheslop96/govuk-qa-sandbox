@@ -1,19 +1,15 @@
 package govuk.pages
 
-import govuk.utils.TextInputHelpers
-import org.openqa.selenium.WebElement
-
-trait AddressPage extends QuestionPage with TextInputHelpers {
-
-  val line1Input: WebElement = findElementById("addressLine1")
-
-  val townOrCityInput: WebElement = findElementById("townOrCity")
-
-  val postcodeInput: WebElement = findElementById("postcode")
+trait AddressPage extends QuestionPage {
 
   def fill(line1Value: String, townOrCityValue: String, postcodeValue: String): Unit = {
+    val line1Input = findElementById("addressLine1")
     fill(line1Input, line1Value)
+
+    val townOrCityInput = findElementById("townOrCity")
     fill(townOrCityInput, townOrCityValue)
+
+    val postcodeInput = findElementById("postcode")
     fill(postcodeInput, postcodeValue)
   }
 }

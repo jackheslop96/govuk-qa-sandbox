@@ -1,8 +1,8 @@
 package govuk.pages
 
-import org.openqa.selenium.{By, WebElement}
+import org.openqa.selenium.{By, WebDriver}
 
-class ConfirmationPage extends Page {
+class ConfirmationPage(override protected val driver: WebDriver) extends Page {
 
   override val url: String = ConfirmationPage.url
 
@@ -13,9 +13,10 @@ class ConfirmationPage extends Page {
     assert(row.getText.equals(expectedText))
   }
 
-  private val startAgainLink: WebElement = findElementBy(By.xpath(s"//a[normalize-space()='Start again']"))
-
-  def startAgain(): Unit = startAgainLink.click()
+  def startAgain(): Unit = {
+    val link = findElementBy(By.xpath(s"//a[normalize-space()='Start again']"))
+    link.click()
+  }
 }
 
 object ConfirmationPage {

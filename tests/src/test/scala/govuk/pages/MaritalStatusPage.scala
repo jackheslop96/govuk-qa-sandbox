@@ -1,6 +1,8 @@
 package govuk.pages
 
-class MaritalStatusPage extends DropdownPage("maritalStatus") {
+import org.openqa.selenium.WebDriver
+
+class MaritalStatusPage(override protected val driver: WebDriver) extends DropdownPage("maritalStatus") {
 
   override val url: String = MaritalStatusPage.url
 
