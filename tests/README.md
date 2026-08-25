@@ -20,7 +20,7 @@ That's intentional. It's here so QAs can fork it, dig in, and practise turning
   end-to-end happy path, covering every common GOV.UK input type: single
   and multi-field text inputs, a date input, simple radios, radios with a
   conditional reveal, checkboxes with a conditional reveal, a select
-  dropdown, a textarea, and a file upload
+  dropdown, and a textarea
 - A shared helper object under `src/test/scala/govuk/utils/`
 - A basic GitHub Actions workflow under `.github/workflows/`
 
@@ -103,7 +103,7 @@ think matters most and be ready to explain your reasoning and trade-offs.
 The journey was deliberately built with a spread of GOV.UK input types —
 plain text inputs, a multi-field page, a date input, simple radios, radios
 with a conditional reveal, checkboxes with a conditional reveal, a select
-dropdown, a textarea, and a file upload. If you're after something more
+dropdown, and a textarea. If you're after something more
 structural than fixing individual specs, this variety is well suited to a
 class hierarchy of page objects — something like a common base for "a GOV.UK
 question page" with shared behaviour (error summary detection, clicking

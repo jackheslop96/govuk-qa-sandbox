@@ -54,23 +54,12 @@ object TestHelpers {
     select.selectByValue(value)
   }
 
-  def uploadFile(cssSelector: String, absolutePath: String): Unit = {
-    driver.findElement(By.cssSelector(cssSelector)).sendKeys(absolutePath)
-  }
-
   def getText(cssSelector: String): String = {
     try {
       driver.findElement(By.cssSelector(cssSelector)).getText
     } catch {
       case e: Exception => "" // if anything goes wrong, just pretend nothing was there
     }
-  }
-
-  // Resolves a file under src/test/resources to an absolute path, for tests
-  // that need to feed a real file into a file input.
-  def resourcePath(name: String): String = {
-    val url = getClass.getClassLoader.getResource(name)
-    new java.io.File(url.toURI).getAbsolutePath
   }
 
   def teardown(): Unit = {
