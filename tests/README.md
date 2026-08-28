@@ -1,6 +1,6 @@
 # GOV.UK journey Selenium sandbox
 
-A small Scala + Selenium test suite driving a local four-page GOV.UK-style
+A small Scala + Selenium test suite driving a local GOV.UK-style
 journey (see `../app`), used as a **practice sandbox** for QAs — not a
 reference implementation.
 

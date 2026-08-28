@@ -1,6 +1,6 @@
 # GOV.UK example journey (Play / Scala / Twirl)
 
-A small four-page Play Framework service styled with the real
+A small Play Framework service styled with the real
 [GOV.UK Design System](https://design-system.service.gov.uk/) CSS/JS
 (loaded from a CDN), used as a stable local target for the Selenium
 suite in `../tests`.

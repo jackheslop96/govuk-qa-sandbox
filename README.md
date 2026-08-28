@@ -3,8 +3,7 @@
 Two projects:
 
 - **`app/`** — a small Play Framework (Scala/Twirl) service implementing a
-  four-page GOV.UK-style journey (name → date of birth → email choice →
-  email address → confirmation), styled with the real GOV.UK Design System
+  short GOV.UK-style journey, styled with the real GOV.UK Design System
   CSS/JS. This exists purely to give the test suite something stable and
   self-contained to run against — a live public website's markup can (and
   does) change without notice, which makes it a poor fit for a suite meant
