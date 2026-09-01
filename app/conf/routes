@@ -44,3 +44,6 @@ GET     /start-again                     controllers.ConfirmationController.star
 
 # Static assets
 GET     /assets/*file                    controllers.Assets.versioned(path="/public", file: Asset)
+
+# Test only
+GET     /test-only/seed                  controllers.testonly.TestOnlyController.seed()

@@ -1,67 +1,31 @@
 package govuk
 
-import govuk.utils.TestHelpers
-import org.scalatest.flatspec.AnyFlatSpec
+import govuk.pages._
 
-class AddressPageSpec extends AnyFlatSpec {
-
-  private def reachAddressPage(): Unit = {
-    TestHelpers.goTo("/")
-    TestHelpers.typeText("#fullName", "Jamie Smith")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.typeText("#day", "17")
-    TestHelpers.typeText("#month", "3")
-    TestHelpers.typeText("#year", "1990")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.click("#nationality")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-    TestHelpers.selectDropdown("#maritalStatus", "single")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-  }
+class AddressPageSpec extends PageSpec {
 
   "The address page" should "redirect back to start of journey if visited directly" in {
-    TestHelpers.setup()
-    TestHelpers.goTo("/address")
+    goTo(HomeAddressPage.url)
 
-    assert(TestHelpers.driver.getCurrentUrl.endsWith("/"))
-
-    TestHelpers.teardown()
+    NamePage(driver)
   }
 
   it should "show an error for an invalid postcode" in {
-    TestHelpers.setup()
     reachAddressPage()
 
-    TestHelpers.typeText("#addressLine1", "221B Baker Street")
-    TestHelpers.typeText("#townOrCity", "London")
-    TestHelpers.typeText("#postcode", "!!!")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
-
-    val errorSummaryVisible = TestHelpers.driver.findElements(
-      org.openqa.selenium.By.cssSelector(".govuk-error-summary")
-    ).size() > 0
-    assert(errorSummaryVisible)
-
-    TestHelpers.teardown()
+    val homeAddressPage = HomeAddressPage(driver)
+    homeAddressPage.fill("221B Baker Street", "London", "!!!")
+    homeAddressPage.submit()
+    homeAddressPage.errorAssertions()
   }
 
   it should "accept a valid address, with line 2 left blank, and move on" in {
-    TestHelpers.setup()
     reachAddressPage()
 
-    TestHelpers.typeText("#addressLine1", "221B Baker Street")
-    TestHelpers.typeText("#townOrCity", "London")
-    TestHelpers.typeText("#postcode", "NW1 6XE")
-    TestHelpers.click(".govuk-button")
-    Thread.sleep(1000)
+    val homeAddressPage = HomeAddressPage(driver)
+    homeAddressPage.fill("221B Baker Street", "London", "NW1 6XE")
+    homeAddressPage.submit()
 
-    assert(TestHelpers.driver.getCurrentUrl.contains("phone-number"))
-
-    TestHelpers.teardown()
+    PhoneNumberPage(driver)
   }
 }
